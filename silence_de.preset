@@ -1,0 +1,31 @@
+# presets for silence.py
+# use comma separated values: defaults are used for absent values
+#
+# For titles/callsign the name is a python regular expression, case is ignored.
+# Re Metachars are # . ^ $ * + ? { } [ ] \ | ( )
+# If a title contains one of these, then escape it (using \) or replace it with full stop
+# Names are matched to the START of a title/callsign so "e4" also matches "e4+1"
+# First name match is used so put specific presets (ie. programmes) before general ones (channels)
+#
+# threshold: (float)  silence threshold in dB.
+# minquiet : (float)  minimum time for silence detection in seconds.
+# mindetect: (float)  minimum number of silences to constitute an advert.
+# minlength: (float)  minimum length of advert break in seconds.
+# maxsep   : (float)  maximum time between silences in an advert break in seconds.
+# padding  : (float)  padding for each cut point in seconds.
+#
+# title/callsign, threshold, minquiet, mindetect, minlength, maxsep, padding
+# defaults      ,       -75,     0.16,         6,       120,    120,    0.48
+#
+
+prosieben maxx,-105,,,,,1
+prosieben,-90,0.12,,,,1
+
+# channels doing well with defaults
+# kabel eins
+# sat.1
+# rtl austria
+# rtl2
+# sixx
+# super rtl
+# vox

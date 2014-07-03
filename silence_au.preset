@@ -1,0 +1,29 @@
+# presets for silence.py
+# use comma separated values: defaults are used for absent values
+# For titles/callsign the name is a python regular expressions, case is ignored.
+# Re Metachars are # . ^ $ * + ? { } [ ] \ | ( )
+# If a title contains one of these, then escape it (using \) or replace it with full stop
+# Names are matched to the START of a title/callsign so "e4" also matches "e4+1"
+# First name match is used so put specific presets (ie. programmes) before general ones (channels)
+#
+# title/callsign, threshold, minquiet, mindetect, minbreak, maxsep, padding
+# defaults          -75,       0.16,       6,       120,     120,    0.48,
+#
+# Defaults for Australian Freeview channels.
+NINE DIGITAL,       -73,       0.16,       6,       150,      60,    0.48,
+GEM,                -73,       0.16,       5,       120,      60,    0.48,
+GO!,                -73,       0.16,       5,       120,      60,    0.48,
+7 Digital,          -75,       0.16,       5,       150,      60,    0.48,
+
+#ABC1 - No ads, have not bothered attempting to configure for preroll or postroll.
+#ABC News 24 - No ads
+#ABC2 - ABC4 - No ads, have not bothered attempting to configure for preroll or postroll.	
+#ABC3 - No ads, have not bothered attempting to configure for preroll or postroll.
+#7mate – defaults working okay with limited testing
+#7TWO – defaults working okay so far
+#TEN Digital – defaults working okay so far
+#ELEVEN – defaults working okay so far
+#ONE – defaults working okay so far
+#SBS ONE – defaults working okay with limited testing
+#SBS TWO – defaults working okay with limited testing
+#SBS HD – defaults working okay with limited testing
