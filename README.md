@@ -18,4 +18,4 @@ Install executables & Python script to /usr/local/bin/ using "sudo make install"
 
 ## Use
 
-> /usr/local/bin/silence.py %JOBID% %VERBOSEMODE% --loglevel debug --presetfile /home/mythtv/.mythtv/silence.preset
+'/usr/local/bin/silence.py %JOBID% %VERBOSEMODE% --loglevel debug --presetfile /home/mythtv/.mythtv/silence.preset'
