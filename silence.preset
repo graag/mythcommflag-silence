@@ -21,6 +21,6 @@ quest,                 ,           ,        ,          ,      55,        , short
 channel 5,             ,       0.24,       2,          ,     300,        , cut news out of films 
 itv,                   ,           ,        ,          ,        ,     1.0, long pad for films
 film 4,                ,           ,        ,          ,        ,     1.0, long pad for films
-bbc,                   ,       0.48,       1,        20,     360,       0, pre/post-roll  
-cbeebies,              ,       0.48,       1,        20,     360,       0, pre/post-roll  
-cbbc,                  ,       0.48,       1,        20,     360,       0, pre/post-roll  
+bbc,                -80,       0.32,       1,        20,     360,       0, pre/post-roll  
+cbeebies,           -80,       0.32,       1,        20,     360,       0, pre/post-roll  
+cbbc,               -80,       0.32,       1,        20,     360,       0, pre/post-roll  
