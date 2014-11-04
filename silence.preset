@@ -6,21 +6,21 @@
 # Names are matched to the START of a title/callsign so "e4" also matches "e4+1"
 # First name match is used so put specific presets (ie. programmes) before general ones (channels)
 #
-# title/callsign, threshold, minquiet, mindetect, minbreak, maxsep, padding
-# defaults          -75,       0.16,       6,       120,     120,    0.48,
+# title/callsign, threshold, minquiet, mindetect, minbreak, maxsep, padding, preroll
+# defaults          -75,       0.16,       6,       120,     120,    0.48,      0
 #
-frasier,               ,       0.28,        ,          ,      91,        , long pauses in prog
-channel 4 news,        ,       1.00,       1,        55,        ,       0, short advert, many silences
-milkshake,             ,       0.48,       8,        60,      61,        , ignore short silences in animation/links
-rude tube,             ,       0.32,        ,       180,      61,        , ignore short silences in links
+frasier,               ,       0.28,        ,          ,      91,        ,      0,    long pauses in prog
+channel 4 news,        ,       1.00,       1,        55,        ,       0,      0,    short advert, many silences
+milkshake,             ,       0.48,       8,        60,      61,        ,      0,    ignore short silences in animation/links
+rude tube,             ,       0.32,        ,       180,      61,        ,      0,    ignore short silences in links
 
 channel 4,             ,       0.24,
 more 4,                ,       0.24,
-dave,               -71,           ,        ,          ,        ,        , loud silences
-quest,                 ,           ,        ,          ,      55,        , short silences, long breaks, short ads
-channel 5,             ,       0.24,       2,          ,     300,        , cut news out of films 
-itv,                   ,           ,        ,          ,        ,     1.0, long pad for films
-film 4,                ,           ,        ,          ,        ,     1.0, long pad for films
-bbc,                -80,       0.32,       1,        20,     360,       0, pre/post-roll  
-cbeebies,           -80,       0.32,       1,        20,     360,       0, pre/post-roll  
-cbbc,               -80,       0.32,       1,        20,     360,       0, pre/post-roll  
+dave,               -71,           ,        ,          ,        ,        ,      0,    loud silences
+quest,                 ,           ,        ,          ,      55,        ,      0,    short silences, long breaks, short ads
+channel 5,             ,       0.24,       2,          ,     300,        ,      0,    cut news out of films 
+itv,                   ,           ,        ,          ,        ,     1.0,      0,    long pad for films
+film 4,                ,           ,        ,          ,        ,     1.0,      0,    long pad for films
+bbc,                -80,       0.32,       1,        20,     360,       0,      1,    preroll only
+cbeebies,           -80,       0.32,       1,        20,     360,       0,      1,    preroll only
+cbbc,               -80,       0.32,       1,        20,     360,       0,      1,    preroll only

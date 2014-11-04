@@ -36,8 +36,8 @@ class PRESET:
   "Manages the presets (parameters passed to the detection algorithm)"
 
   # define arg ordering and default values
-  argname = ['thresh', 'minquiet', 'mindetect', 'minbreak', 'maxsep', 'pad']
-  argval  = [  -75,       0.16,        6,          120,       120,    0.48]
+  argname = ['thresh', 'minquiet', 'mindetect', 'minbreak', 'maxsep', 'pad', 'preroll']
+  argval  = [  -75,       0.16,        6,          120,       120,    0.48,      0]
   # dictionary holds value for each arg
   argdict = collections.OrderedDict(list(zip(argname, argval)))
 

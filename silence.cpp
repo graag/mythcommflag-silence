@@ -56,7 +56,7 @@ namespace Arg
 
   void usage()
   {
-    error("Usage: silence <tail_pid> <threshold> <minquiet> <mindetect> <minlength> <maxsep> <pad>", false);
+    error("Usage: silence <tail_pid> <threshold> <minquiet> <mindetect> <minlength> <maxsep> <pad> <preroll>", false);
     error("<tail_pid> : (int)    Process ID to be killed after idle timeout.", false);
     error("<threshold>: (float)  silence threshold in dB.", false);
     error("<minquiet> : (float)  minimum time for silence detection in seconds.", false);
@@ -64,14 +64,15 @@ namespace Arg
     error("<minlength>: (float)  minimum length of advert break in seconds.", false);
     error("<maxsep>   : (float)  maximum time between silences in an advert break in seconds.", false);
     error("<pad>      : (float)  padding for each cut point in seconds.", false);
+    error("<preroll>  : (int)    If 0, flag all adverts.  Otherwise only flag preroll.", false);
     error("AU format audio is expected on stdin.", false);
-    error("Example: silence 4567 -75 0.1 5 60 90 1 < audio.au");
+    error("Example: silence 4567 -75 0.1 5 60 90 1 0 < audio.au");
   }
 
   void parse(int argc, char **argv)
   // Parse args and convert to useable values (frames)
   {
-    if (8 != argc)
+    if (9 != argc)
       usage();
 
     float argThreshold; // db
@@ -80,6 +81,7 @@ namespace Arg
     float argMinLength; // secs
     float argMaxSep; // secs
     float argPad; // secs
+    int argPreroll;
 
     /* Load options. */
     if (1 != sscanf(argv[1], "%d", &tail_pid))
@@ -96,6 +98,9 @@ namespace Arg
       error("Could not parse maxsep option into a number");
     if (1 != sscanf(argv[7], "%f", &argPad))
       error("Could not parse pad option into a number");
+    if (1 != sscanf(argv[8], "%d", &argPreroll))
+      error("Could not parse preroll option into a number");
+
 
     /* Scale threshold to integer range that libsndfile will use. */
     useThreshold = rint(INT_MAX * pow(10, argThreshold / 20));
@@ -106,7 +111,7 @@ namespace Arg
     useMinLength = ceil(argMinLength * kvideoRate);
     useMaxSep    = rint(argMaxSep * kvideoRate + 0.5);
     usePad       = rint(argPad * kvideoRate + 0.5);
-    onlyCutPreroll = true;
+    onlyCutPreroll = argPreroll != 0;
 
     printf("%sThreshold=%.1f, MinQuiet=%.2f, MinDetect=%.1f, MinLength=%.1f, MaxSep=%.1f, Pad=%.2f\n",
            prefixdebug, argThreshold, argMinQuiet, argMinDetect, argMinLength, argMaxSep, argPad);
