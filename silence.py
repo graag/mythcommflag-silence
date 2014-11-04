@@ -102,7 +102,7 @@ def main():
   try:
     # define options
     parser = argparse.ArgumentParser(description='Commflagger')
-    parser.add_argument('--preset', help='Specify values as "Threshold, MinQuiet, MinDetect, MinLength, MaxSep, Pad"')
+    parser.add_argument('--preset', help='Specify values as "Threshold, MinQuiet, MinDetect, MinLength, MaxSep, Pad, Preroll"')
     parser.add_argument('--presetfile', help='Specify file containing preset values')
     parser.add_argument('--chanid', type=int, help='Use chanid for manual operation')
     parser.add_argument('--starttime', help='Use starttime for manual operation')
