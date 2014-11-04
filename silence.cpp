@@ -119,9 +119,13 @@ namespace Arg
            prefixdebug, kvideoRate, useThreshold, useMinQuiet);
     printf("%sClusters are composed of a minimum of %d silences closer than %d frames and must be\n",
            prefixdebug, useMinDetect, useMaxSep);
-    printf("%slonger than %d frames in total. Cuts will be padded by %d frames\n",
+    printf("%slonger than %d frames in total. Cuts will be padded by %d frames.\n",
            prefixdebug, useMinLength, usePad);
-    printf("%sonlyCutPreroll is %d\n", prefixdebug, onlyCutPreroll);
+    if (onlyCutPreroll) {
+      printf("%sOnly preroll will be cut.\n", prefixdebug);
+    } else {
+      printf("%sAll detected adverts will be cut.\n", prefixdebug);
+    }
     printf("%s< preroll, > postroll, - advert, ? too few silences, # too short, = comm flagged\n", prefixdebug);
     printf("%s           Start - End    Start - End      Duration         Interval    Level/Count\n", prefixinfo);
     printf("%s          frame - frame (mmm:ss-mmm:ss) frame (mm:ss.s)  frame (mmm:ss)\n", prefixinfo);
