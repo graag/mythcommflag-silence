@@ -52,6 +52,7 @@ namespace Arg
   frameCount_t useMinLength;      // adverts must be at least this long
   frameCount_t useMaxSep;         // silences must be closer than this to be in the same cluster
   frameCount_t usePad;            // padding for each cut
+  bool onlyCutPreroll;            // If set, only commflag the pre-roll
 
   void usage()
   {
@@ -105,6 +106,7 @@ namespace Arg
     useMinLength = ceil(argMinLength * kvideoRate);
     useMaxSep    = rint(argMaxSep * kvideoRate + 0.5);
     usePad       = rint(argPad * kvideoRate + 0.5);
+    onlyCutPreroll = true;
 
     printf("%sThreshold=%.1f, MinQuiet=%.2f, MinDetect=%.1f, MinLength=%.1f, MaxSep=%.1f, Pad=%.2f\n",
            prefixdebug, argThreshold, argMinQuiet, argMinDetect, argMinLength, argMaxSep, argPad);
@@ -114,6 +116,7 @@ namespace Arg
            prefixdebug, useMinDetect, useMaxSep);
     printf("%slonger than %d frames in total. Cuts will be padded by %d frames\n",
            prefixdebug, useMinLength, usePad);
+    printf("%sonlyCutPreroll is %d\n", prefixdebug, onlyCutPreroll);
     printf("%s< preroll, > postroll, - advert, ? too few silences, # too short, = comm flagged\n", prefixdebug);
     printf("%s           Start - End    Start - End      Duration         Interval    Level/Count\n", prefixinfo);
     printf("%s          frame - frame (mmm:ss-mmm:ss) frame (mm:ss.s)  frame (mmm:ss)\n", prefixinfo);
@@ -323,8 +326,11 @@ void processCluster()
 	 currentCluster->interval, currentCluster->silenceCount);
 
   // only flag clusters at final state
-  if (currentCluster->state > Cluster::unset)
-    report(prefixcut, '=', "Cut", currentCluster->padStart, currentCluster->padEnd, 0, 0);
+  if (currentCluster->state > Cluster::unset) {
+    if (!Arg::onlyCutPreroll || (currentCluster->state == Cluster::preroll)) {
+      report(prefixcut, '=', "Cut", currentCluster->padStart, currentCluster->padEnd, 0, 0);
+    }
+  }
 
   // cluster is now owned by the list, start looking for next
   currentCluster = NULL;
