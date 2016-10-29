@@ -8,6 +8,7 @@
 # v4.1 Use unicode for foreign chars
 # v4.2 Prevent BE writeStringList errors
 # v5.0 Improve exception handling/logging. Fix player messages (0.26+ only)
+# v5.1 explicity set the bookmarkupdate value (for newer mysql)
 
 import MythTV
 import os
@@ -16,6 +17,7 @@ import argparse
 import collections
 import re
 import sys
+import datetime
 
 kExe_Silence = '/usr/local/bin/silence'
 kUpmix_Channels = '6' # Change this to 2 if you never have surround sound in your recordings.
@@ -121,7 +123,7 @@ def main():
     logger = MYLOG(db)
     be = MythTV.BECache(db=db)
 
-    logger.log('')# separate jobs in logfile
+    logger.log('')	# separate jobs in logfile
     if args.jobid:
       logger.log('Starting job %s'%args.jobid, MYLOG.INFO)
       job = MythTV.Job(args.jobid, db)
@@ -185,6 +187,7 @@ def main():
     # Purge any existing skip list and flag as in-progress
     rec.commflagged = 2
     rec.markup.clean()
+    rec.bookmarkupdate=datetime.datetime.now()
     rec.update()
 
     # Process log output from C++ silence
