@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Build a skiplist from silence in the audio track.
 # v1.0 Roger Siddons
 # v2.0 Fix progid for job/player messages
@@ -39,7 +39,8 @@ class PRESET:
 
   # define arg ordering and default values
   argname = ['thresh', 'minquiet', 'mindetect', 'minbreak', 'maxsep', 'pad', 'preroll']
-  argval  = [  -75,       0.16,        6,          120,       120,    0.48,      0]
+  #argval  = [  -75,       0.16,        6,          120,       120,    0.48,      0]
+  argval  = [  -88,       0.04,        3,          120,       120,    1,     0]
   # dictionary holds value for each arg
   argdict = collections.OrderedDict(list(zip(argname, argval)))
 
@@ -89,7 +90,7 @@ class PRESET:
               self.argdict.update(v for v in validargs if v[1] is not None)
               break
         else:
-          self.logger.log('No preset found for "' + title.encode('utf-8') + '" or "' + callsign.encode('utf-8') + '"')
+          self.logger.log('No preset found for "' + title + '" or "' + callsign + '"')
     except IOError:
       self.logger.log('Presets file "' + filename + '" not found', MYLOG.ERR)
     return self.argdict
@@ -108,6 +109,7 @@ def main():
     parser.add_argument('--presetfile', help='Specify file containing preset values')
     parser.add_argument('--chanid', type=int, help='Use chanid for manual operation')
     parser.add_argument('--starttime', help='Use starttime for manual operation')
+    parser.add_argument('--file', help='Use filename for manual operation')
     parser.add_argument('--dump', action="store_true", help='Generate stack trace of exception')
     parser.add_argument('jobid', nargs='?', help='Myth job id')
 
@@ -129,6 +131,10 @@ def main():
       job = MythTV.Job(args.jobid, db)
       chanid = job.chanid
       starttime = job.starttime
+    elif args.file:
+      job = None
+      chanid = None
+      starttime = None
     elif args.chanid and args.starttime:
       job = None
       chanid = args.chanid
@@ -141,6 +147,17 @@ def main():
       logger.log('Both --chanid and -starttime must be specified', MYLOG.ERR)
       sys.exit(1)
 
+    # get recording
+    if not args.file:
+        logger.log('Seeking chanid %s, starttime %s' %(chanid, starttime), MYLOG.INFO)
+        rec = MythTV.Recorded((chanid, starttime), db)
+    else:
+        logger.log('Seeking file %s' % args.file, MYLOG.INFO)
+        rec = list(db.searchRecorded(basename=os.path.basename(args.file)))[0]
+        chanid = rec['chanid']
+        starttime = rec['starttime']
+    channel = MythTV.Channel(chanid, db)
+
     # mythplayer update message uses a 'chanid_utcTimeAsISODate' format to identify recording
     try:
       # only 0.26+
@@ -150,13 +167,9 @@ def main():
 
     progId = '%d_%s'%(chanid, str(utc).replace(' ', 'T'))
 
-    # get recording
-    logger.log('Seeking chanid %s, starttime %s' %(chanid, starttime), MYLOG.INFO)
-    rec = MythTV.Recorded((chanid, starttime), db)
-    channel = MythTV.Channel(chanid, db)
 
-    logger.log('Processing: ' + channel.callsign.encode('utf-8') + ', ' + str(rec.starttime)
-      + ', "' + rec.title.encode('utf-8') + ' - ' + rec.subtitle.encode('utf-8')+ '"')
+    logger.log('Processing: ' + channel.callsign + ', ' + str(rec.starttime)
+      + ', "' + rec.title + ' - ' + rec.subtitle+ '"')
 
     sg = MythTV.findfile(rec.basename, rec.storagegroup, db)
     if sg is None:
@@ -194,7 +207,7 @@ def main():
     breaks = 0
     level = {'info': MYLOG.INFO, 'debug': MYLOG.DEBUG, 'err': MYLOG.ERR}
     while True:
-      line = p3.stdout.readline()
+      line = p3.stdout.readline().decode('utf-8')
       if line:
         flag, info = line.split('@', 1)
         if flag == 'cut':
@@ -261,7 +274,7 @@ def main():
         while frame is not None:
           # format local vars
           vars = []
-          for name, var in frame.tb_frame.f_locals.iteritems():
+          for name, var in frame.tb_frame.f_locals.items():
             try:
               text = '%s' % var
               # truncate vars that are too long
