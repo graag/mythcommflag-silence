@@ -9,7 +9,7 @@ Code copy/pasted from http://www.mythtv.org/wiki/Commercial_detection_with_silen
 
    * Compilation environment (gcc, make) - sudo apt-get install build-essential
    * libsndfile for reading audio samples - sudo apt-get install libsndfile-dev
-   * Python 2.7 for the new argument parser
+   * Python 3
 
 ## Building
 
